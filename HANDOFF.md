@@ -36,6 +36,12 @@ Exit condition: APK installed on device, paired, auto-reply on activity detectio
 - `Listener` interface + `Message` struct = gomobile API boundary; whatsmeow's `func(evt any)` stays inside wrapper
 - `emit(func(Listener))` protected by sync.RWMutex
 
+**Rules engine design decisions:**
+- Multiple rules match same message → first matching rule fires only (simpler, less noise, lower ban risk)
+- "First" is user-controlled: rules list is sortable; default order is insertion order; UI supports grouping by trigger type or contact
+- ActivityTrigger fires on transition into activity (entering IN_VEHICLE), not on every message while active — configurable per rule, but transition-only is default
+- Contact filter matches against chat JID, not sender JID — "Alice" means Alice's individual chat, not Alice-the-person-anywhere. Rationale: in a group, Alice's message is directed at the group, not at you; auto-replying would be noisy and a ban risk
+
 **whatsmeow fork hardening (all on `main`):**
 - uTLS HelloChrome_Auto + patch ALPNExtension (not HandshakeState.Hello) to remove h2
 - Both SetWebsocketHTTPClient + SetPreLoginHTTPClient must use Chrome client
