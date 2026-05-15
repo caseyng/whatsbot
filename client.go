@@ -221,11 +221,24 @@ func (c *Client) handleEvent(evt interface{}) {
 		c.emit(func(l Listener) { l.OnError("client outdated — update required") })
 
 	case *events.Message:
+		if r := v.Message.GetReactionMessage(); r != nil {
+			storeReaction(c.db,
+				r.GetKey().GetID(), v.Info.Chat.String(),
+				v.Info.Sender.String(), r.GetText(),
+				r.GetSenderTimestampMS())
+			return
+		}
+		if p := v.Message.GetProtocolMessage(); p != nil &&
+			p.GetType() == waE2E.ProtocolMessage_REVOKE {
+			markMessageDeleted(c.db, p.GetKey().GetID())
+			return
+		}
 		body, mediaType := extractBody(v.Message)
 		ts := v.Info.Timestamp
 		storeMessage(c.db, v.Info.ID, v.Info.Chat.String(),
 			v.Info.Sender.String(), ts,
-			body, mediaType, v.Info.IsFromMe, v.Info.IsGroup)
+			body, mediaType, "", v.Info.PushName,
+			v.Info.IsFromMe, v.Info.IsGroup, false)
 		msg := &Message{
 			ID:        v.Info.ID,
 			ChatJID:   v.Info.Chat.String(),
@@ -247,23 +260,39 @@ func (c *Client) handleEvent(evt interface{}) {
 			if name == "" {
 				name = conv.GetDisplayName()
 			}
-			upsertChat(c.db, chatJID, name, isGroup)
+			upsertChat(c.db, chatJID, name, conv.GetDescription(),
+				isGroup, conv.GetArchived(), conv.GetPinned() > 0,
+				conv.GetLastMsgTimestamp(), conv.GetCreatedAt(),
+				conv.GetCreatedBy(), conv.GetEphemeralExpiration())
+			for _, p := range conv.GetParticipant() {
+				upsertGroupMember(c.db, chatJID, p.GetUserJID(), p.GetRank().String())
+			}
 			for _, m := range conv.GetMessages() {
 				info := m.GetMessage()
 				if info == nil {
 					continue
 				}
+				msgID := info.GetKey().GetID()
 				body, mediaType := extractBody(info.GetMessage())
 				ts := time.Unix(int64(info.GetMessageTimestamp()), 0)
 				sender := info.GetKey().GetParticipant()
 				if sender == "" {
 					sender = info.GetKey().GetRemoteJID()
 				}
+				isDeleted := info.GetRevokeMessageTimestamp() > 0
 				if storeMessage(c.db,
-					info.GetKey().GetID(), chatJID, sender, ts,
+					msgID, chatJID, sender, ts,
 					body, mediaType,
-					info.GetKey().GetFromMe(), isGroup) {
+					info.GetStatus().String(), info.GetPushName(),
+					info.GetKey().GetFromMe(), isGroup, isDeleted) {
 					stored++
+				}
+				for _, r := range info.GetReactions() {
+					reactorJID := r.GetKey().GetParticipant()
+					if reactorJID == "" {
+						reactorJID = r.GetKey().GetRemoteJID()
+					}
+					storeReaction(c.db, msgID, chatJID, reactorJID, r.GetText(), r.GetSenderTimestampMS())
 				}
 			}
 		}
