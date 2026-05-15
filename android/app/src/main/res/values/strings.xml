@@ -5,7 +5,7 @@
 
     <!-- Onboarding steps -->
     <string name="onboarding_step_1_title">Pair Your WhatsApp</string>
-    <string name="onboarding_step_1_body">Scan the QR code in WhatsApp Web to link this device.</string>
+    <string name="onboarding_step_1_body">Enter the 8-digit pairing code in WhatsApp → Linked Devices → Link with Phone Number.</string>
     <string name="onboarding_step_2_title">Grant Permissions</string>
     <string name="onboarding_step_2_body">Allow whatsbot to run in the background and post notifications.</string>
     <string name="onboarding_step_3_title">Disable Battery Optimisation</string>

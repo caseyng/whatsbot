@@ -26,19 +26,21 @@ class WhatsbotGoDatabase(private val dbPath: String) {
 
     /**
      * Returns a raw cursor over wa_chats. Caller is responsible for closing the cursor.
+     * Column order: jid, name, last_msg_ts
      */
     fun queryChats(): Cursor =
-        db.rawQuery("SELECT jid, name, last_message_timestamp FROM wa_chats", null)
+        db.rawQuery("SELECT jid, name, last_msg_ts FROM wa_chats ORDER BY last_msg_ts DESC", null)
 
     /**
      * Returns a raw cursor over wa_messages for a given chat JID, ordered newest first.
      * Caller is responsible for closing the cursor.
+     * Column order: id, chat_jid, sender_jid, timestamp, body, is_from_me
      */
-    fun queryMessages(jid: String): Cursor =
+    fun queryMessages(chatJid: String): Cursor =
         db.rawQuery(
-            "SELECT jid, message_id, sender_jid, timestamp, body, is_from_me " +
-                "FROM wa_messages WHERE jid = ? ORDER BY timestamp DESC",
-            arrayOf(jid)
+            "SELECT id, chat_jid, sender_jid, timestamp, body, is_from_me " +
+                "FROM wa_messages WHERE chat_jid = ? ORDER BY timestamp DESC",
+            arrayOf(chatJid)
         )
 
     fun close() {
