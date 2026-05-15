@@ -101,8 +101,9 @@ User wants to scope app features before writing any code. Do not skip scoping.
 - "Best-effort service" is a first-class constraint, not a cop-out. Means: don't add retry logic, circuit breakers, dead letter queues etc. unless the feature obviously needs it.
 - User is new to git/GitHub workflows — explain SSH vs HTTPS, branching, remotes from first principles when these come up. Don't assume.
 - User learns by doing and asking. Prefers short direct answers. Gets frustrated when Claude does more than asked.
-- whatsbot-go module path: `github.com/caseyng/whatsbot-go`
-- whatsmeow fork module path: `go.mau.fi/whatsmeow` (replaced to local or caseyng/whatsmeow)
+- Go module path: `github.com/caseyng/whatsbot/go` (was `whatsbot-go`, renamed 2026-05-15)
+- whatsmeow fork module path: `go.mau.fi/whatsmeow` (replace → `github.com/caseyng/whatsmeow v0.1.0-whatsbot`)
+- Local dir: `/root/whatsbot/` — monorepo. Go library in `go/`, Android app will go in `android/`
 
 ## ARTIFACTS
 
@@ -113,21 +114,21 @@ User wants to scope app features before writing any code. Do not skip scoping.
 | `newsletter.go` | `whatsmeow-fork/` | log.Fatalf → error. Done. |
 | `cmd/test-connect/main.go` | `whatsmeow-fork/` | Full CLI with backfill. Done. |
 | `EXPERIENCE.md` | `whatsmeow-fork/` | All protocol learnings + decisions. Read this first. |
-| `client.go` | `whatsbot-go/` | gomobile Client wrapper. Done. |
-| `storage.go` | `whatsbot-go/` | All SQLite functions. Done. |
-| `listener.go` | `whatsbot-go/` | Listener interface. Done. |
-| `message.go` | `whatsbot-go/` | Message struct + extractBody. Done. |
-| `storage_test.go` + `message_test.go` | `whatsbot-go/` | 20 unit tests, all passing. |
+| `client.go` | `whatsbot/go/` | gomobile Client wrapper. Done. |
+| `storage.go` | `whatsbot/go/` | All SQLite functions. Done. |
+| `listener.go` | `whatsbot/go/` | Listener interface. Done. |
+| `message.go` | `whatsbot/go/` | Message struct + extractBody. Done. |
+| `storage_test.go` + `message_test.go` | `whatsbot/go/` | 20 unit tests, all passing. |
 
 **Repos:**
 - `github.com/caseyng/whatsmeow` — fork, `main` branch, SSH working
-- `github.com/caseyng/whatsbot-go` — wrapper lib, `main` branch
+- `github.com/caseyng/whatsbot` — monorepo (`go/` + `android/` to come), `main` branch
 
 ## RESUME INSTRUCTIONS
 1. Read `/root/whatsmeow-fork/EXPERIENCE.md` — full protocol and architecture context
-2. Read `/root/whatsbot-go/client.go` + `storage.go` — current Go API surface
+2. Read `/root/whatsbot/go/client.go` + `go/storage.go` — current Go API surface
 3. Read this file
 4. Then: help user scope the Android app and set up the dev ecosystem
 
 ---
-ORIENTATION: You're picking up a WhatsApp automation Android app project that has its Go foundation complete. The whatsmeow fork (fingerprint-hardened) and gomobile wrapper (whatsbot-go) are both done, tested, and on GitHub. The next phase is the Android app itself — but the user wants to scope features and set up the dev ecosystem (skills, best practices, project structure) before writing any Android code. The dominant reasoning pattern: this is a personal convenience app, owned and used by one person. Every design question resolves toward "simplest thing that works" and "make it configurable." The highest-risk mistake for a new session is doing more than asked — user has corrected this repeatedly. Match request scope exactly; ask before expanding it.
+ORIENTATION: You're picking up a WhatsApp automation Android app project. The monorepo is `github.com/caseyng/whatsbot` (local: `/root/whatsbot/`). Go library is in `go/` (module `github.com/caseyng/whatsbot/go`), Android app will go in `android/` (not yet created). The whatsmeow fork (fingerprint-hardened) and Go library are both done, tested, and on GitHub. Android dev ecosystem is set up: `android-engineering` skill at `~/.claude/skills/android-engineering/`, Kotlin guardrail binding at `~/.claude/skills/code-integrity-guardrail/references/bindings/kotlin.md`. Next phase is scoping and building the Android app. Dominant reasoning pattern: personal convenience app for one person — every design question resolves toward "simplest thing that works." Highest-risk mistake: doing more than asked. Match request scope exactly; ask before expanding.
