@@ -50,7 +50,7 @@ type Client struct {
 //   - dbPath already contains a session for a different phone number
 func NewClient(dbPath, phone string) (*Client, error) {
 	db, err := sql.Open("sqlite3",
-		"file:"+dbPath+"?_foreign_keys=on&_journal_mode=WAL")
+		"file:"+dbPath+"?_foreign_keys=on&_journal_mode=WAL&_busy_timeout=5000")
 	if err != nil {
 		return nil, fmt.Errorf("open db: %w", err)
 	}
