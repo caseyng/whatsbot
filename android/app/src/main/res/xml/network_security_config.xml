@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    TLS-only policy. Cleartext (HTTP) traffic is prohibited for all domains.
+    Trust anchors: system CA store only (no user-installed CAs, no debug overrides).
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>

@@ -1,0 +1,15 @@
+# Gradle build outputs and caches
+.gradle/
+build/
+app/build/
+
+# Local AAR (built separately by scripts/build-go.sh)
+app/libs/*.aar
+
+# Machine-local configuration
+local.properties
+
+# Signing artifacts — never commit private keys
+*.keystore
+*.jks
+keystore.properties

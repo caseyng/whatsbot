@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App -->
+    <string name="app_name">whatsbot</string>
+
+    <!-- Onboarding steps -->
+    <string name="onboarding_step_1_title">Pair Your WhatsApp</string>
+    <string name="onboarding_step_1_body">Scan the QR code in WhatsApp Web to link this device.</string>
+    <string name="onboarding_step_2_title">Grant Permissions</string>
+    <string name="onboarding_step_2_body">Allow whatsbot to run in the background and post notifications.</string>
+    <string name="onboarding_step_3_title">Disable Battery Optimisation</string>
+    <string name="onboarding_step_3_body">Prevent Android from stopping the background service.</string>
+    <string name="onboarding_step_complete_title">All Set</string>
+    <string name="onboarding_step_complete_body">whatsbot is running. You can close this screen.</string>
+
+    <!-- Notification channels -->
+    <string name="notification_channel_service_status_id">service_status</string>
+    <string name="notification_channel_service_status_name">Service Status</string>
+    <string name="notification_channel_service_status_description">Persistent notification shown while the WhatsApp connection is active.</string>
+
+    <string name="notification_channel_action_alerts_id">action_alerts</string>
+    <string name="notification_channel_action_alerts_name">Action Alerts</string>
+    <string name="notification_channel_action_alerts_description">Alerts for automation actions that may need attention.</string>
+
+    <string name="notification_channel_errors_id">errors</string>
+    <string name="notification_channel_errors_name">Errors</string>
+    <string name="notification_channel_errors_description">Critical errors and connection failures.</string>
+
+    <!-- Service notifications -->
+    <string name="notification_service_title">whatsbot is running</string>
+    <string name="notification_service_connected">Connected to WhatsApp</string>
+    <string name="notification_service_connecting">Connecting…</string>
+    <string name="notification_service_disconnected">Disconnected — retrying</string>
+
+    <!-- Settings labels -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_autostart_label">Start on boot</string>
+    <string name="settings_autostart_summary">Automatically restart the service after device reboot.</string>
+    <string name="settings_reconnect_interval_label">Reconnect interval</string>
+    <string name="settings_reconnect_interval_summary">Seconds between reconnection attempts when disconnected.</string>
+    <string name="settings_log_level_label">Log level</string>
+
+    <!-- Common actions -->
+    <string name="action_connect">Connect</string>
+    <string name="action_disconnect">Disconnect</string>
+    <string name="action_retry">Retry</string>
+    <string name="action_ok">OK</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_settings">Settings</string>
+</resources>

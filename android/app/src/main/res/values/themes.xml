@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Material3 dynamic-colour theme.
+    The Compose-side theme (WhatsbotTheme) applies DynamicColorScheme on Android 12+
+    and falls back to a static baseline palette on earlier releases.
+    This XML theme covers the Window/Activity chrome only.
+-->
+<resources>
+    <style name="Theme.Whatsbot" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Window background matches the M3 surface colour; actual colours driven by Compose -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>

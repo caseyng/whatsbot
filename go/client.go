@@ -40,6 +40,8 @@ type Client struct {
 	phone    string
 	mu       sync.RWMutex
 	listener Listener
+	stub     bool   // true when created by NewTestClient; no WA network calls are made
+	activity string // last activity reported via SimulateActivity (stub only)
 }
 
 // NewClient opens or creates the SQLite database at dbPath and prepares a
