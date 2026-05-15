@@ -1,19 +1,23 @@
 # whatsbot Android app — ready to build
 
 ## WHAT THIS IS
-Personal WhatsApp automation app for Android: scheduling outbound messages, auto-reply rules.
-Built on whatsmeow (Go) compiled via gomobile → .aar → Kotlin Android app.
-Exit condition: APK installed on user's device, paired to their WA account, scheduling + auto-reply working.
+Context-aware WhatsApp communication proxy. Acts on Casey's behalf when physically/temporally unavailable.
+Built on whatsmeow (Go) compiled via gomobile → .aar → Kotlin Android app (monorepo: `go/` + `android/`).
+Exit condition: APK installed on device, paired, auto-reply on activity detection + scheduled messages working.
 
 ## WHERE WE ARE
-**Phase 1 complete: foundation.**
+**Go foundation complete.**
 - whatsmeow fork: hardened, tested, on `main` at `github.com/caseyng/whatsmeow`
-- gomobile wrapper: complete, tested, at `github.com/caseyng/whatsbot-go`
-- SQLite schema: messages, chats, group_members, reactions — all populated from history sync
+- Go library: complete, tested, at `github.com/caseyng/whatsbot` in `go/` (module: `github.com/caseyng/whatsbot/go`)
+- SQLite schema: messages, chats, group_members, reactions populated from history sync
+- Repo restructured: monorepo at `github.com/caseyng/whatsbot`, Android goes in `android/`
 
-**Phase 2: Android app. Not started.**
-Next immediate steps (user's words): "scope it" + "setup ecosystem such as skills best practices".
-User wants to scope app features before writing any code. Do not skip scoping.
+**Android dev ecosystem complete.**
+- `android-engineering` skill at `~/.claude/skills/android-engineering/`
+- Kotlin guardrail binding at `~/.claude/skills/code-integrity-guardrail/references/bindings/kotlin.md`
+- Phase 1 scope approved: see `/root/.claude/plans/sequential-enchanting-pelican.md`
+
+**Android app: not started. Next step: create project structure.**
 
 ## CONSTRAINTS
 - HARD: personal-use, best-effort service. Never over-engineer reliability or add complexity for edge cases the owner won't hit.
@@ -83,18 +87,15 @@ User wants to scope app features before writing any code. Do not skip scoping.
 4. **Git/GitHub confusion** — User didn't know SSH vs HTTPS causes the username prompt; didn't know forks can't change default branch; didn't know what "default branch" actually controls. Explain these from first principles when git/GitHub questions come up — don't assume familiarity.
 
 ## NEXT
-- MUST: Scope the Android app (what features exactly, MVP boundary)
-- MUST: Set up Android dev ecosystem — skills, best practices, project structure decision (Kotlin, Jetpack Compose vs XML, etc.)
-- SHOULD: Decide gomobile build pipeline (how .aar gets built and included in Android project)
-- SHOULD: Decide on Android Room vs raw SQLite for reading the Go-written DB from Kotlin side
-- DEBT: whatsbot-go `go.mod` still uses `replace go.mau.fi/whatsmeow => /root/whatsmeow-fork` (local path). Before any production build, change to `github.com/caseyng/whatsmeow` + tag the fork.
+- MUST: Create Android project in `android/` — Kotlin, Jetpack Compose, Gradle Kotlin DSL, version catalog
+- MUST: Wire gomobile `.aar` build pipeline (`scripts/build-go.sh`)
+- MUST: Implement foreground service skeleton (WhatsAppForegroundService with Go Client)
+- SHOULD: Implement pairing flow (pair code UI → Go library → connection status)
+- SHOULD: Define Room schema for app-owned tables (rules, schedules, log entries)
 
 ## OPEN QUESTIONS
-- App feature scope: what exactly does "scheduling" mean? Time-based? Recurring? Per-contact rules?
-- Auto-reply: keyword matching? AI-based? Rule-based? Who decides the rules at runtime?
-- UI: how does the user configure rules? Settings screen? File-based config?
-- Pairing flow: how does the Android app handle first-time pairing? In-app UI?
-- Background service: foreground service (persistent notification) or WorkManager?
+- Application ID / package name for the Android app (e.g. `com.caseyng.whatsbot`)
+- Min SDK: plan says API 26, confirm before creating project
 
 ## CONTEXT NEW SESSION CANNOT INFER
 - User is Casey, personal project, personal WA account automation. Not a product for others.
