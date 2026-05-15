@@ -243,6 +243,11 @@ func (c *Client) handleEvent(evt interface{}) {
 		for _, conv := range v.Data.GetConversations() {
 			chatJID := conv.GetID()
 			isGroup := strings.HasSuffix(chatJID, "@g.us")
+			name := conv.GetName()
+			if name == "" {
+				name = conv.GetDisplayName()
+			}
+			upsertChat(c.db, chatJID, name, isGroup)
 			for _, m := range conv.GetMessages() {
 				info := m.GetMessage()
 				if info == nil {

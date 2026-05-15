@@ -18,8 +18,23 @@ func initMessageTable(db *sql.DB) error {
 			is_group    INTEGER NOT NULL DEFAULT 0
 		);
 		CREATE INDEX IF NOT EXISTS idx_wamsg_chat ON wa_messages(chat_jid, timestamp);
+		CREATE TABLE IF NOT EXISTS wa_chats (
+			jid      TEXT PRIMARY KEY,
+			name     TEXT,
+			is_group INTEGER NOT NULL DEFAULT 0
+		);
 	`)
 	return err
+}
+
+func upsertChat(db *sql.DB, jid, name string, isGroup bool) {
+	grp := 0
+	if isGroup {
+		grp = 1
+	}
+	db.Exec(`INSERT INTO wa_chats (jid, name, is_group) VALUES (?, ?, ?)
+		ON CONFLICT(jid) DO UPDATE SET name = excluded.name`,
+		jid, name, grp)
 }
 
 // storeMessage inserts a message row. Returns true if the row was inserted,
