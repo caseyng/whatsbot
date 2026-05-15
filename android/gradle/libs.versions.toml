@@ -15,6 +15,8 @@ kotlinx-coroutines = "1.9.0"
 kotlinx-serialization = "1.7.3"
 timber = "5.0.1"
 leakcanary = "2.14"
+kotlinx-coroutines-test = "1.9.0"
+androidx-arch-core-testing = "2.2.0"
 
 [libraries]
 # AndroidX Core
@@ -76,6 +78,11 @@ leakcanary = { group = "com.squareup.leakcanary", name = "leakcanary-android", v
 # Test
 junit = { group = "junit", name = "junit", version = "4.13.2" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version = "1.2.1" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinx-coroutines-test" }
+androidx-room-testing = { group = "androidx.room", name = "room-testing", version.ref = "androidx-room" }
+androidx-arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "androidx-arch-core-testing" }
+androidx-test-runner = { group = "androidx.test", name = "runner", version = "1.6.2" }
+androidx-test-core = { group = "androidx.test", name = "core-ktx", version = "1.6.1" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
