@@ -1,10 +1,10 @@
-module github.com/caseyng/whatsbot-go
+module github.com/caseyng/whatsbot/go
 
 go 1.25.0
 
 require (
 	github.com/mattn/go-sqlite3 v1.14.44
-	go.mau.fi/whatsmeow v0.0.0
+	go.mau.fi/whatsmeow v0.1.0-whatsbot
 	google.golang.org/protobuf v1.36.11
 )
 
@@ -32,7 +32,4 @@ require (
 	golang.org/x/text v0.36.0 // indirect
 )
 
-// Use local fork during development.
-// For production builds, replace with:
-//   replace go.mau.fi/whatsmeow => github.com/caseyng/whatsmeow v0.1.0-whatsbot
-replace go.mau.fi/whatsmeow => /root/whatsmeow-fork
+replace go.mau.fi/whatsmeow => github.com/caseyng/whatsmeow v0.1.0-whatsbot
